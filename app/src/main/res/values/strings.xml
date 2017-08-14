@@ -2,4 +2,5 @@
     <string name="app_name">Complex</string>
     <string name="action_settings">Settings</string>
     <string name="title_hint">Enter a title.</string>
+    <string name="entry_title_hint">Enter a title</string>
 </resources>
