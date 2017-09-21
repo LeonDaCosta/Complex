@@ -24,7 +24,7 @@
         style="?android:listSeparatorTextViewStyle"
         />
 
-    <Button android:id="@+id/crime_date"
+    <Button android:id="@+id/entry_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -32,7 +32,7 @@
         android:padding="80dp"
         />
 
-    <CheckBox android:id="@+id/crime_solved"
+    <CheckBox android:id="@+id/entry_solved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

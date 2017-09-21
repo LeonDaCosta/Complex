@@ -13,11 +13,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-/**
- * Created by ldacosta on 13/09/17.
- */
+import java.util.UUID;
+
 
 public class EntryFragment extends Fragment {
+
+    private static final String ARG_CRIME_ID = "crime_id";
+    //private static final String DIALOG_DATE = "DialogDate";
+    //private static final int REQUEST_DATE = 0;
 
     private Entry mEntry;
     private EditText mTitleField;
@@ -27,7 +30,8 @@ public class EntryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mEntry= new Entry();
+        UUID entryId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        mEntry = EntryLab.get(getActivity()).getEntries(entryId);
     }
 
     @Override
@@ -35,7 +39,6 @@ public class EntryFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_entry, container, false);
 
         mTitleField = (EditText)v.findViewById(R.id.entry_title);
-
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(
