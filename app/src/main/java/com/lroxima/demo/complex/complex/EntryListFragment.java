@@ -1,6 +1,5 @@
 package com.lroxima.demo.complex.complex;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -30,11 +30,17 @@ public class EntryListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         EntryLab entryLab = EntryLab.get(getActivity());
         List<Entry> entries = entryLab.getmEntries();
 
-        if(mAdapter == null) {
+        if (mAdapter == null) {
             mAdapter = new EntryAdapter(entries);
             mEntryRecyclerView.setAdapter(mAdapter);
         } else {
@@ -42,41 +48,34 @@ public class EntryListFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-    }
-
     private class EntryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private  Entry mEntry;
+        private Entry mEntry;
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckBox;
 
-        public EntryHolder(View itemView) {
-            super(itemView);
+        public EntryHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_entry, parent, false));
 
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_entry_solved_check_box);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.entry_title);
+            mDateTextView = (TextView) itemView.findViewById(R.id.entry_date);
+            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.entry_solved);
         }
 
-        public void bindEntry(Entry entry) {
+        public void bind(Entry entry) {
             mEntry = entry;
             mTitleTextView.setText(mEntry.getTitle());
             mDateTextView.setText(mEntry.getDate().toString());
-            mSolvedCheckBox.setChecked(mEntry.isSolved());
+            //mSolvedCheckBox.setChecked(mEntry.isSolved());
         }
 
         @Override
         public void onClick(View view) {
-            //Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
-            //startActivity(intent);
+            Toast.makeText(getActivity(), mEntry.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -91,14 +90,13 @@ public class EntryListFragment extends Fragment {
         @Override
         public EntryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-            return new EntryHolder(view);
+            return new EntryHolder(layoutInflater,parent);
         }
 
         @Override
         public void onBindViewHolder(EntryHolder holder, int position) {
             Entry entry = mEntries.get(position);
-            holder.bindEntry(entry);
+            holder.bind(entry);
         }
 
         @Override
