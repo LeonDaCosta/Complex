@@ -20,10 +20,10 @@ public class EntryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
 
         mCrimeRecyclerView = (RecyclerView) view
-                .findViewById(R.id.crime_recycler_view);
+                .findViewById(R.id.entry_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
@@ -59,12 +59,12 @@ public class EntryListFragment extends Fragment {
         private ImageView mSolvedImageView;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_crime, parent, false));
+            super(inflater.inflate(R.layout.list_item_entry, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
-            mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
-            mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.entry_title);
+            mDateTextView = (TextView) itemView.findViewById(R.id.entry_date);
+            mSolvedImageView = (ImageView) itemView.findViewById(R.id.entry_solved);
         }
 
         public void bind(Entry entry) {

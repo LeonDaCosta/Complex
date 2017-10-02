@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class EntryPagerActivity extends AppCompatActivity {
 
-    private static final String EXTRA_CRIME_ID =
+    private static final String EXTRA_ENTRY_ID =
             "com.lroxima.demo.complex.complex.crime_id";
 
     private ViewPager mViewPager;
@@ -22,19 +22,19 @@ public class EntryPagerActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {
         Intent intent = new Intent(packageContext, EntryPagerActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_ENTRY_ID, crimeId);
         return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crime_pager);
+        setContentView(R.layout.activity_entry_pager);
 
         UUID crimeId = (UUID) getIntent()
-                .getSerializableExtra(EXTRA_CRIME_ID);
+                .getSerializableExtra(EXTRA_ENTRY_ID);
 
-        mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
+        mViewPager = (ViewPager) findViewById(R.id.entry_view_pager);
 
         mEntries = EntryLab.get(this).getCrimes();
         FragmentManager fragmentManager = getSupportFragmentManager();

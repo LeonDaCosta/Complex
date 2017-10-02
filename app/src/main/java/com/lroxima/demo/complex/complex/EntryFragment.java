@@ -18,7 +18,7 @@ import static android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class EntryFragment extends Fragment {
 
-    private static final String ARG_CRIME_ID = "crime_id";
+    private static final String ARG_CRIME_ID = "entry_id";
 
     private Entry mEntry;
     private EditText mTitleField;
@@ -44,9 +44,9 @@ public class EntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        View v = inflater.inflate(R.layout.fragment_entry, container, false);
 
-        mTitleField = (EditText) v.findViewById(R.id.crime_title);
+        mTitleField = (EditText) v.findViewById(R.id.entry_title);
         mTitleField.setText(mEntry.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -65,11 +65,11 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        mDateButton = (Button) v.findViewById(R.id.crime_date);
+        mDateButton = (Button) v.findViewById(R.id.entry_date);
         mDateButton.setText(mEntry.getDate().toString());
         mDateButton.setEnabled(false);
 
-        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.crime_solved);
+        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
         mSolvedCheckbox.setChecked(mEntry.isSolved());
         mSolvedCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
