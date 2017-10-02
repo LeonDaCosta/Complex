@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class CrimeListFragment extends Fragment {
+public class EntryListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
 
@@ -38,11 +38,11 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void updateUI() {
-        CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimes = crimeLab.getCrimes();
+        EntryLab entryLab = EntryLab.get(getActivity());
+        List<Entry> entries = entryLab.getCrimes();
 
         if (mAdapter == null) {
-            mAdapter = new CrimeAdapter(crimes);
+            mAdapter = new CrimeAdapter(entries);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
@@ -52,7 +52,7 @@ public class CrimeListFragment extends Fragment {
     private class CrimeHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private Crime mCrime;
+        private Entry mEntry;
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -67,26 +67,26 @@ public class CrimeListFragment extends Fragment {
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
         }
 
-        public void bind(Crime crime) {
-            mCrime = crime;
-            mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
-            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
+        public void bind(Entry entry) {
+            mEntry = entry;
+            mTitleTextView.setText(mEntry.getTitle());
+            mDateTextView.setText(mEntry.getDate().toString());
+            mSolvedImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
             startActivity(intent);
         }
     }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
 
-        private List<Crime> mCrimes;
+        private List<Entry> mEntries;
 
-        public CrimeAdapter(List<Crime> crimes) {
-            mCrimes = crimes;
+        public CrimeAdapter(List<Entry> entries) {
+            mEntries = entries;
         }
 
         @Override
@@ -97,13 +97,13 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
-            Crime crime = mCrimes.get(position);
-            holder.bind(crime);
+            Entry entry = mEntries.get(position);
+            holder.bind(entry);
         }
 
         @Override
         public int getItemCount() {
-            return mCrimes.size();
+            return mEntries.size();
         }
     }
 }

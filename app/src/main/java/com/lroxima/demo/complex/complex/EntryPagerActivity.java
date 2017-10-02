@@ -12,16 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class EntryPagerActivity extends AppCompatActivity {
 
     private static final String EXTRA_CRIME_ID =
             "com.lroxima.demo.complex.complex.crime_id";
 
     private ViewPager mViewPager;
-    private List<Crime> mCrimes;
+    private List<Entry> mEntries;
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {
-        Intent intent = new Intent(packageContext, CrimePagerActivity.class);
+        Intent intent = new Intent(packageContext, EntryPagerActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeId);
         return intent;
     }
@@ -36,24 +36,24 @@ public class CrimePagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
 
-        mCrimes = CrimeLab.get(this).getCrimes();
+        mEntries = EntryLab.get(this).getCrimes();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 
             @Override
             public Fragment getItem(int position) {
-                Crime crime = mCrimes.get(position);
-                return CrimeFragment.newInstance(crime.getId());
+                Entry entry = mEntries.get(position);
+                return EntryFragment.newInstance(entry.getId());
             }
 
             @Override
             public int getCount() {
-                return mCrimes.size();
+                return mEntries.size();
             }
         });
 
-        for (int i = 0; i < mCrimes.size(); i++) {
-            if (mCrimes.get(i).getId().equals(crimeId)) {
+        for (int i = 0; i < mEntries.size(); i++) {
+            if (mEntries.get(i).getId().equals(crimeId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

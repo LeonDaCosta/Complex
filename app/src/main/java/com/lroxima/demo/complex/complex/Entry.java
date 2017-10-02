@@ -3,14 +3,14 @@ package com.lroxima.demo.complex.complex;
 import java.util.Date;
 import java.util.UUID;
 
-public class Crime {
+public class Entry {
 
     private UUID mId;
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
 
-    public Crime() {
+    public Entry() {
         mId = UUID.randomUUID();
         mDate = new Date();
     }
