@@ -1,7 +1,10 @@
 package com.lroxima.demo.complex.complex;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,13 +15,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class EntryFragment extends Fragment {
 
-    private static final String ARG_CRIME_ID = "entry_id";
+    private static final String ARG_ENTRY_ID = "entry_id";
+    private static final String DIALOG_DATE = "DialogDate";
+
+    private static final int REQUEST_DATE = 0;
 
     private Entry mEntry;
     private EditText mTitleField;
@@ -27,7 +34,7 @@ public class EntryFragment extends Fragment {
 
     public static EntryFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CRIME_ID, crimeId);
+        args.putSerializable(ARG_ENTRY_ID, crimeId);
 
         EntryFragment fragment = new EntryFragment();
         fragment.setArguments(args);
@@ -37,9 +44,11 @@ public class EntryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
+        UUID crimeId = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
         mEntry = EntryLab.get(getActivity()).getCrime(crimeId);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,8 +75,17 @@ public class EntryFragment extends Fragment {
         });
 
         mDateButton = (Button) v.findViewById(R.id.entry_date);
-        mDateButton.setText(mEntry.getDate().toString());
-        mDateButton.setEnabled(false);
+        updateDate();
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                DatePickerFragment dialog = DatePickerFragment
+                        .newInstance(mEntry.getDate());
+                dialog.setTargetFragment(EntryFragment.this, REQUEST_DATE);
+                dialog.show(manager, DIALOG_DATE);
+            }
+        });
 
         mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
         mSolvedCheckbox.setChecked(mEntry.isSolved());
@@ -81,4 +99,24 @@ public class EntryFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data
+                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mEntry.setDate(date);
+            updateDate();
+        }
+    }
+
+    private void updateDate() {
+        mDateButton.setText(mEntry.getDate().toString());
+    }
+
+
 }

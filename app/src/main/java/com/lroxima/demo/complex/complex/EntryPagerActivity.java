@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EntryPagerActivity extends AppCompatActivity {
 
     private static final String EXTRA_ENTRY_ID =
-            "com.lroxima.demo.complex.complex.crime_id";
+            "com.lroxima.demo.complex.complex.entry_id";
 
     private ViewPager mViewPager;
     private List<Entry> mEntries;
